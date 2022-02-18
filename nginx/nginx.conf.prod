@@ -1,0 +1,14 @@
+server {
+    listen 8080;
+
+    server_name kaf305.com;
+
+    location / {
+        proxy_pass http://frontend:3000;
+    }
+
+    location /api {
+        proxy_pass http://api:3001;
+        rewrite ^/api/(.*)$1 break;
+    }
+}

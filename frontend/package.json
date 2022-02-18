@@ -1,0 +1,41 @@
+{
+  "name": "nextjs-with-typescript",
+  "version": "5.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint --fix --ext .ts,.tsx .",
+    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+  },
+  "dependencies": {
+    "@emotion/cache": "latest",
+    "@emotion/react": "latest",
+    "@emotion/server": "latest",
+    "@emotion/styled": "latest",
+    "@mui-treasury/layout": "^4.5.1",
+    "@mui/icons-material": "latest",
+    "@mui/material": "latest",
+    "@mui/x-data-grid": "^5.4.0",
+    "axios": "^0.25.0",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-hook-form": "^7.25.0"
+  },
+  "devDependencies": {
+    "@types/material-ui": "^0.21.12",
+    "@types/react": "latest",
+    "@types/react-tap-event-plugin": "^0.0.31",
+    "@typescript-eslint/eslint-plugin": "^4.6.1",
+    "@typescript-eslint/parser": "^4.6.1",
+    "eslint": "^7.12.1",
+    "eslint-config-next": "latest",
+    "eslint-config-prettier": "7.2.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "prettier": "^2.1.2",
+    "typescript": "latest"
+  }
+}

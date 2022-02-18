@@ -1,0 +1,19 @@
+{
+  "name": "kaf305-docker",
+  "version": "1.0.0",
+  "description": "full stack project for departament 305 of MAI institute",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NZ-WEB/kaf305-docker.git"
+  },
+  "author": "kann1ball",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NZ-WEB/kaf305-docker/issues"
+  },
+  "homepage": "https://github.com/NZ-WEB/kaf305-docker#readme"
+}
