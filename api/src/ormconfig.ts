@@ -3,7 +3,7 @@ import { ConnectionOptions } from 'typeorm';
 const config: ConnectionOptions = {
   type: 'postgres',
   host: 'localhost',
-  port: 5432,
+  port: 5431,
   username: 'kaf305_api',
   password: '123',
   database: 'kaf305_api',
