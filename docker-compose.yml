@@ -5,48 +5,48 @@ services:
     build: ./frontend
     container_name: kaf305-web
     command: npm run start
+    environment:
+      - SERVER_BASE_URL=localhost:1337/api/
     ports:
       - "3000:3000"
     restart: unless-stopped
     networks:
       - kaf305-network
 
+
   api:
-    build: ./api
-    container_name: kaf305-api
-    command: npm start
-    restart: unless-stopped
-    ports:
-      - "3001:3001"
-    environment:
-      - PORT=3001
-      - HOST=localhost:3001
+    build:
+      dockerfile: Dockerfile
+      context: ./api
     depends_on:
       - postgres
+    environment:
+      DATABASE_URL: postgres://user:password@postgres:5432/db
+      NODE_ENV: development
+      PORT: 3001
+    ports:
+      - "3001:3001"
+    container_name: kaf305api
     networks:
-      - kaf305-network    
+      - kaf305-network
 
   postgres:
-    image: postgres:13.3
-    environment:
-      POSTGRES_DB: "kaf305_api"
-      POSTGRES_USER: "kaf305_api"
-      POSTGRES_PASSWORD: "123"
-      PGDATA: "/var/lib/postgresql/data/pgdata"
-    volumes:
-      - ../2. Init Database:/docker-entrypoint-initdb.d
-      - .:/var/lib/postgresql/data
+    image: postgres:10.4
     ports:
-      - "5431:5431"
+      - "35000:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
     container_name: kaf305-db
     networks:
       - kaf305-network
 
   nginx:
     image: nginx:stable-alpine
-    container_name: realworld-docker-nginx
+    container_name: kaf305-nginx
     ports:
-      - "80:80"
+      - "8080:8080"
     volumes:
       - ./nginx/nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
     depends_on:
