@@ -4,7 +4,9 @@
   "description": "full stack project for departament 305 of MAI institute",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "docker-compose -f docker-compose.yml -f docker-compose.development.yml up --build",
+    "build": "docker-compose up --build"
   },
   "repository": {
     "type": "git",

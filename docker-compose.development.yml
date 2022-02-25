@@ -2,6 +2,9 @@ version: '3'
 
 services:
   frontend:
+    build: 
+      dockerfile: Dockerfile.dev
+      context: ./frontend
     command: npm run dev
     stdin_open: true
     tty: true
@@ -9,6 +12,9 @@ services:
       - ./frontend/src:/usr/src/app/src
 
   api:
+    build: 
+      dockerfile: Dockerfile.dev
+      context: ./api
     command: npm run start
     volumes:
       - ./api/src:/usr/src/app/src

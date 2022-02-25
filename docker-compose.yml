@@ -5,8 +5,6 @@ services:
     build: ./frontend
     container_name: kaf305-web
     command: npm run start
-    environment:
-      - SERVER_BASE_URL=api
     ports:
       - "3000:3000"
     restart: unless-stopped
