@@ -1,1 +1,1 @@
-export const SERVER_BASE_URL = process.env.SERVER_BASE_URL;
+export const SERVER_BASE_URL = 'http://localhost:3001';
