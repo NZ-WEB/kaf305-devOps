@@ -9,6 +9,7 @@ import { AuthMiddleware } from '@app/user/middlewares/auth.middleware';
 import { MembersModule } from './members/members.module';
 import { PublicationsModule } from './publications/publications.module';
 import { HomePageModule } from './home-page/home-page.module';
+import { ScheduleModule } from './schedule/schedule.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { HomePageModule } from './home-page/home-page.module';
     MembersModule,
     PublicationsModule,
     HomePageModule,
+    ScheduleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
