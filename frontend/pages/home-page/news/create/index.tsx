@@ -3,7 +3,7 @@ import { Alert, Button, Card, Grid, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import HomePageNewsService from '../../../../service/homePage/news/HomePageNews.service';
 import { HomePageNewsInterface } from '../../../../interfaces/HomePageNews.interface';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as React from 'react';
 import { useRouter } from 'next/router';
 
@@ -11,6 +11,7 @@ const CreatePage = (): JSX.Element => {
   const homePageNewsService = new HomePageNewsService();
   const router = useRouter();
   const [errors, setErrors] = useState([]);
+  const [isNewsAdded, setIsNewsAdded] = useState(false);
   const {
     register,
     handleSubmit,
@@ -20,7 +21,12 @@ const CreatePage = (): JSX.Element => {
   const onSubmit = handleSubmit((data: HomePageNewsInterface) =>
     homePageNewsService
       .create(data)
-      .then(() => router.push('/'))
+      .then(() => {
+        setIsNewsAdded(!isNewsAdded);
+        setTimeout(() => {
+          setIsNewsAdded(false);
+        }, 3000);
+      })
       .catch((e) => setErrors([...errors, ...e])),
   );
 
@@ -32,6 +38,10 @@ const CreatePage = (): JSX.Element => {
             {error}
           </Alert>
         ))}
+
+      {isNewsAdded && (
+        <Alert severity="success">Запись успешно добавлена</Alert>
+      )}
 
       <Card sx={{ padding: '1em' }}>
         <form onSubmit={onSubmit}>
