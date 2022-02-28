@@ -3,12 +3,13 @@ import { TheHomePageNewsProps } from './TheHomePageNews.props';
 import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import HomePageNewsService from '../../../service/homePage/news/HomePageNews.service';
 import Typography from '@mui/material/Typography';
 import { AppModal } from '../AppModal/AppModal';
 import { HomePageNewsInterface } from '../../../interfaces/HomePageNews.interface';
 import { AppCard } from '../AppCard/AppCard';
+import { AppContext } from '../../../context';
 
 export const TheHomePageNews = ({
   ...props
@@ -16,6 +17,7 @@ export const TheHomePageNews = ({
   const newsService = new HomePageNewsService();
   const [slideCount, setSlideCount] = useState<number>(0);
   const [news, setNews] = useState([]);
+  const { auth } = useContext(AppContext);
 
   const setNewConditionOfSlide = (action: 'inc' | 'dec') => {
     switch (action) {
@@ -83,13 +85,15 @@ export const TheHomePageNews = ({
         </Grid>
       </Grid>
       <CardActions>
-        <AppModal
-          withButton
-          btnText="Удалить"
-          title="Вы действительно хотите удалить эту новость?"
-          subtitle="Это действие нельзя будет отменить"
-          handle={() => deleteNews(news[slideCount])}
-        />
+        {auth && (
+          <AppModal
+            withButton
+            btnText="Удалить"
+            title="Вы действительно хотите удалить эту новость?"
+            subtitle="Это действие нельзя будет отменить"
+            handle={() => deleteNews(news[slideCount])}
+          />
+        )}
       </CardActions>
     </AppCard>
   );
