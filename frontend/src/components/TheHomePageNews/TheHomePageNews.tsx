@@ -1,4 +1,4 @@
-import { Card, CardActions, Grid, Icon } from '@mui/material';
+import { CardActions, Grid } from '@mui/material';
 import { TheHomePageNewsProps } from './TheHomePageNews.props';
 import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -8,7 +8,7 @@ import HomePageNewsService from '../../../service/homePage/news/HomePageNews.ser
 import Typography from '@mui/material/Typography';
 import { AppModal } from '../AppModal/AppModal';
 import { HomePageNewsInterface } from '../../../interfaces/HomePageNews.interface';
-import { log } from 'util';
+import { AppCard } from '../AppCard/AppCard';
 
 export const TheHomePageNews = ({
   ...props
@@ -54,14 +54,14 @@ export const TheHomePageNews = ({
   }, []);
 
   return (
-    <Card {...props}>
+    <AppCard {...props}>
       <Grid container>
-        <Grid item sm={1}>
+        <Grid item sm={2}>
           <IconButton onClick={() => setNewConditionOfSlide('dec')}>
             <ArrowBackIcon />
           </IconButton>
         </Grid>
-        <Grid item sm={1}>
+        <Grid item sm={2}>
           <IconButton onClick={() => setNewConditionOfSlide('inc')}>
             <ArrowForwardIcon />
           </IconButton>
@@ -69,13 +69,11 @@ export const TheHomePageNews = ({
         <Grid item sm={12}>
           <div>
             {news.length && (
-              <Grid
-                padding={'1em'}
-                container
-                direction="column"
-              >
+              <Grid padding={'1em'} container direction="column">
                 <Grid item>
-                  <Typography variant={"h6"}>{news[slideCount].title}</Typography>
+                  <Typography variant={'h6'}>
+                    {news[slideCount].title}
+                  </Typography>
                 </Grid>
                 <Grid item>
                   <Typography>{news[slideCount].text}</Typography>
@@ -94,6 +92,6 @@ export const TheHomePageNews = ({
           handle={() => deleteNews(news[slideCount])}
         />
       </CardActions>
-    </Card>
+    </AppCard>
   );
 };

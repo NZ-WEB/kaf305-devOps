@@ -3,7 +3,6 @@ import {
   Alert,
   Breadcrumbs,
   Button,
-  Card,
   Grid,
   Link,
   TextField,
@@ -14,6 +13,7 @@ import { HomePageNewsInterface } from '../../../../interfaces/HomePageNews.inter
 import { useState } from 'react';
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
+import { AppCard } from '../../../../src/components/AppCard/AppCard';
 
 const CreatePage = (): JSX.Element => {
   const homePageNewsService = new HomePageNewsService();
@@ -60,7 +60,7 @@ const CreatePage = (): JSX.Element => {
         <Alert severity="success">Запись успешно добавлена</Alert>
       )}
 
-      <Card sx={{ padding: '1em' }}>
+      <AppCard>
         <form onSubmit={onSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -109,7 +109,7 @@ const CreatePage = (): JSX.Element => {
             </Grid>
           </Grid>
         </form>
-      </Card>
+      </AppCard>
     </>
   );
 };

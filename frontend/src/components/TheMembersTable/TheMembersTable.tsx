@@ -1,9 +1,10 @@
 import { TheMembersTableProps } from './TheMembersTable.props';
-import { Button, Card, CardContent } from '@mui/material';
+import { Button, CardContent } from '@mui/material';
 import { DataGrid, GridApi, GridCellValue, GridColDef } from '@mui/x-data-grid';
 import { useRouter } from 'next/router';
 import Typography from '@mui/material/Typography';
 import { MembersInterface } from '../../../interfaces/members.interface';
+import { AppCard } from '../AppCard/AppCard';
 
 export const TheMembersTable = ({
   members,
@@ -68,7 +69,7 @@ export const TheMembersTable = ({
   });
 
   return (
-    <Card {...props}>
+    <AppCard {...props}>
       <CardContent>
         <div>
           <DataGrid
@@ -82,6 +83,6 @@ export const TheMembersTable = ({
           />
         </div>
       </CardContent>
-    </Card>
+    </AppCard>
   );
 };
