@@ -11,7 +11,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { AppDrawerProps } from './AppDrawer.props';
 import { useContext } from 'react';
-import { ListSubheader } from '@mui/material';
+import { Button, Chip, Link } from '@mui/material';
 import { AppContext } from '../../../context';
 import { TheAppBar } from '../../../src/components';
 import AppSideBarListItem from '../../../src/components/AppSideBarListItem/AppSideBarListItem';
@@ -49,7 +49,7 @@ export default function AppDrawer({ children }: AppDrawerProps) {
   const theme = useTheme();
   const { auth, setAuth } = useContext(AppContext);
 
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -91,10 +91,17 @@ export default function AppDrawer({ children }: AppDrawerProps) {
         anchor="left"
         open={open}
       >
-        <DrawerHeader>
+        <DrawerHeader sx={{ px: '1em' }}>
           <Typography sx={{ flexGrow: 1, fontWeight: '500' }} variant={'h5'}>
             Меню
           </Typography>
+          {auth ? (
+            <Chip label={getCurrentUser()} />
+          ) : (
+            <Link href={`/login`}>
+              <Button variant="contained">Войти</Button>
+            </Link>
+          )}
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? (
               <ChevronLeftIcon />
@@ -104,19 +111,12 @@ export default function AppDrawer({ children }: AppDrawerProps) {
           </IconButton>
         </DrawerHeader>
 
-        <Divider />
-
-        <List>
+        <List >
           {auth && (
             <List
               sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
               component="nav"
               aria-labelledby="nested-list-subheader"
-              subheader={
-                <ListSubheader component="div" id="nested-list-subheader">
-                  {auth && getCurrentUser()}
-                </ListSubheader>
-              }
             >
               <AppSideBarListItem title="Сотрудники" expanding={true}>
                 <AppSideBarListItem
@@ -135,8 +135,6 @@ export default function AppDrawer({ children }: AppDrawerProps) {
             </List>
           )}
         </List>
-
-        <Divider />
       </Drawer>
       <Main open={open}>
         <DrawerHeader />

@@ -6,6 +6,7 @@ import { MembersInterface } from '../../../interfaces/members.interface';
 import { useRouter } from 'next/router';
 import Divider from '@mui/material/Divider';
 import { useEffect, useState } from 'react';
+import Typography from '@mui/material/Typography';
 
 export const TheMembersList = ({
   members,
@@ -40,6 +41,7 @@ export const TheMembersList = ({
 
   return (
     <AppCard>
+      <Typography variant="h6">Сотрудники кафедры</Typography>
       <List>
         {members &&
           computePaginatedMembers.map((member: MembersInterface) => (
