@@ -28,9 +28,10 @@ const Backdrop = styled('div')`
 `;
 
 const style = {
-  width: 400,
+  width: '50wh',
   bgcolor: 'background.paper',
-  border: '2px solid #000',
+  border: 'none',
+  borderRadius: '1em',
   p: 2,
   px: 4,
   pb: 3,
@@ -54,9 +55,9 @@ export const AppModal = ({
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
+      <Button type="button" variant="contained" onClick={handleOpen}>
         {btnText}
-      </button>
+      </Button>
       <StyledModal
         aria-labelledby="unstyled-modal-title"
         aria-describedby="unstyled-modal-description"
