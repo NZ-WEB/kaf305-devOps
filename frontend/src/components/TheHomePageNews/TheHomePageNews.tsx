@@ -49,7 +49,6 @@ export const TheHomePageNews = ({
     newsService
       .getAll()
       .then((news) => setNews(news))
-      .then((i) => console.log(i, 'i'))
       .catch((e) => console.log(e));
   }, []);
 
