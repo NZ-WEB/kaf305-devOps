@@ -41,4 +41,23 @@ export default class HomePageNewsService {
       throw error.response.data.message;
     }
   }
+
+  async deleteById(id: number) {
+    try {
+      const token = JSON.parse(localStorage.getItem('user')).token;
+
+      const response = await axios.delete(
+        `${SERVER_BASE_URL}/home-page/news/${id}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Token ${token}`,
+          },
+        },
+      );
+      return response.data;
+    } catch (error: any) {
+      throw error.response.data.message;
+    }
+  }
 }

@@ -1,16 +1,22 @@
 import { withLayout } from '../../../../layout/Layout';
-import {Alert, Breadcrumbs, Button, Card, Grid, Link, TextField} from '@mui/material';
+import {
+  Alert,
+  Breadcrumbs,
+  Button,
+  Card,
+  Grid,
+  Link,
+  TextField,
+} from '@mui/material';
 import { useForm } from 'react-hook-form';
 import HomePageNewsService from '../../../../service/homePage/news/HomePageNews.service';
 import { HomePageNewsInterface } from '../../../../interfaces/HomePageNews.interface';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import * as React from 'react';
-import { useRouter } from 'next/router';
-import Typography from "@mui/material/Typography";
+import Typography from '@mui/material/Typography';
 
 const CreatePage = (): JSX.Element => {
   const homePageNewsService = new HomePageNewsService();
-  const router = useRouter();
   const [errors, setErrors] = useState([]);
   const [isNewsAdded, setIsNewsAdded] = useState(false);
   const {
@@ -33,15 +39,11 @@ const CreatePage = (): JSX.Element => {
 
   return (
     <>
-      <Breadcrumbs sx={{paddingBottom: "1em"}} aria-label="breadcrumb">
+      <Breadcrumbs sx={{ paddingBottom: '1em' }} aria-label="breadcrumb">
         <Link underline="hover" color="inherit" href="/">
           Home
         </Link>
-        <Link
-          underline="hover"
-          color="inherit"
-          href="/news"
-        >
+        <Link underline="hover" color="inherit" href="/news">
           News
         </Link>
         <Typography color="text.primary">Create</Typography>

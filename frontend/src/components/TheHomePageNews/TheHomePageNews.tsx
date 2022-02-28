@@ -1,4 +1,4 @@
-import { Card } from '@mui/material';
+import { Card, CardActions, Grid, Icon } from '@mui/material';
 import { TheHomePageNewsProps } from './TheHomePageNews.props';
 import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -6,6 +6,9 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useEffect, useState } from 'react';
 import HomePageNewsService from '../../../service/homePage/news/HomePageNews.service';
 import Typography from '@mui/material/Typography';
+import { AppModal } from '../AppModal/AppModal';
+import { HomePageNewsInterface } from '../../../interfaces/HomePageNews.interface';
+import { log } from 'util';
 
 export const TheHomePageNews = ({
   ...props
@@ -33,6 +36,15 @@ export const TheHomePageNews = ({
     }
   };
 
+  const deleteNews = (newsData: HomePageNewsInterface) => {
+    newsService
+      .deleteById(newsData.id)
+      .then(() => {
+        setNews(news.filter((item) => item.id !== newsData.id));
+      })
+      .catch((e) => console.log(e));
+  };
+
   useEffect(() => {
     newsService
       .getAll()
@@ -43,20 +55,45 @@ export const TheHomePageNews = ({
 
   return (
     <Card {...props}>
-      <IconButton onClick={() => setNewConditionOfSlide('dec')}>
-        <ArrowBackIcon />
-      </IconButton>
-      <div>
-        {news.length && (
+      <Grid container>
+        <Grid item sm={1}>
+          <IconButton onClick={() => setNewConditionOfSlide('dec')}>
+            <ArrowBackIcon />
+          </IconButton>
+        </Grid>
+        <Grid item sm={1}>
+          <IconButton onClick={() => setNewConditionOfSlide('inc')}>
+            <ArrowForwardIcon />
+          </IconButton>
+        </Grid>
+        <Grid item sm={12}>
           <div>
-            <Typography>{news[slideCount].title}</Typography>
+            {news.length && (
+              <Grid
+                padding={'1em'}
+                container
+                direction="column"
+              >
+                <Grid item>
+                  <Typography variant={"h6"}>{news[slideCount].title}</Typography>
+                </Grid>
+                <Grid item>
+                  <Typography>{news[slideCount].text}</Typography>
+                </Grid>
+              </Grid>
+            )}
           </div>
-        )}
-      </div>
-
-      <IconButton onClick={() => setNewConditionOfSlide('inc')}>
-        <ArrowForwardIcon />
-      </IconButton>
+        </Grid>
+      </Grid>
+      <CardActions>
+        <AppModal
+          withButton
+          btnText="Удалить"
+          title="Вы действительно хотите удалить эту новость?"
+          subtitle="Это действие нельзя будет отменить"
+          handle={() => deleteNews(news[slideCount])}
+        />
+      </CardActions>
     </Card>
   );
 };

@@ -47,6 +47,11 @@ export const AppModal = ({
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const handleClick = () => {
+    handle();
+    handleClose();
+  };
+
   return (
     <div>
       <button type="button" onClick={handleOpen}>
@@ -63,7 +68,7 @@ export const AppModal = ({
           <h2 id="unstyled-modal-title">{title}</h2>
           <p id="unstyled-modal-description">{subtitle}</p>
           {withButton && (
-            <Button onClick={() => handle()} type="button" color="warning">
+            <Button onClick={() => handleClick()} type="button" color="warning">
               {btnText}
             </Button>
           )}
