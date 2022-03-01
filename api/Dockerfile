@@ -1,4 +1,4 @@
-FROM node:17.4-alpine
+FROM node:14-alpine
 
 WORKDIR /usr/src/app
 
@@ -14,5 +14,6 @@ COPY . .
 RUN npm run build
 
 CMD [ "node", "dist/main" ]
+
 
 

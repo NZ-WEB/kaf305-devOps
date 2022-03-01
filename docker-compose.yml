@@ -2,6 +2,10 @@ version: '3'
 
 services:
   frontend:
+    deploy:
+      resources:
+        limits:
+          memory: 4G
     build: ./frontend
     container_name: kaf305-web
     command: npm run start
@@ -24,7 +28,7 @@ services:
       DATABASE_URL: postgres://user:password@postgres:5432/db
       NODE_ENV: development
       PORT: 3001
-      VUE_APP_SCHEDULE_API_KEY: 946d7ce8-65c5-4b87-9141-2555e24a4c89
+      VUE_APP_SCHEDULE_API_KEY: SECRET_KEY
     ports:
       - "3001:3001"
     container_name: kaf305-api
