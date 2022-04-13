@@ -1,20 +1,22 @@
 import { TheMembersListProps } from './TheMembersList.props';
-import { AppCard } from '../AppCard/AppCard';
-import List from '@mui/material/List';
-import { ListItem, ListItemButton, Pagination } from '@mui/material';
+import {
+  Avatar,
+  ListItem,
+  ListItemButton,
+  Pagination,
+  Typography,
+} from '@mui/material';
 import { MembersInterface } from '../../../interfaces/members.interface';
-import { useRouter } from 'next/router';
-import Divider from '@mui/material/Divider';
 import { useEffect, useState } from 'react';
-import Typography from '@mui/material/Typography';
+import Link from 'next/link';
+import List from '@mui/material/List';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export const TheMembersList = ({
   members,
 }: TheMembersListProps): JSX.Element => {
   const MEMBERS_ON_PAGE = 5;
-  console.log(members.length, 'start');
-
-  const router = useRouter();
   const [page, setPage] = useState(1);
 
   const [computePaginatedMembers, setComputePaginatedMembers] = useState([]);
@@ -40,26 +42,43 @@ export const TheMembersList = ({
   }, [page]);
 
   return (
-    <AppCard>
+    <>
       <Typography variant="h6">Сотрудники кафедры</Typography>
-      <List>
-        {members &&
-          computePaginatedMembers.map((member: MembersInterface) => (
-            <ListItem disablePadding key={member.id}>
-              <ListItemButton
-                onClick={() => router.push(`/member/${member.slug}`)}
-              >
-                {member.fullName}
-              </ListItemButton>
-              <Divider />
-            </ListItem>
-          ))}
-      </List>
-      <Pagination
-        count={getPaginationCount(MEMBERS_ON_PAGE)}
-        page={page}
-        onChange={handleChange}
-      />
-    </AppCard>
+      {members ? (
+        <>
+          <List>
+            {computePaginatedMembers.map((member: MembersInterface) => (
+              <ListItem key={member.id} sx={{ padding: '0' }}>
+                <Link href={`/member/${member.slug}`} key={member.id}>
+                  <ListItemButton>
+                    <Avatar alt={member.fullName} src={member.avatar} />
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'flex-start',
+                        marginLeft: '1em',
+                      }}
+                    >
+                      <Typography variant="subtitle1">
+                        {member.fullName}
+                      </Typography>
+                      <Typography variant="caption">{member.post}</Typography>
+                    </Box>
+                  </ListItemButton>
+                </Link>
+              </ListItem>
+            ))}
+          </List>
+          <Pagination
+            count={getPaginationCount(MEMBERS_ON_PAGE)}
+            page={page}
+            onChange={handleChange}
+          />
+        </>
+      ) : (
+        <CircularProgress />
+      )}
+    </>
   );
 };

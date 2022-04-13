@@ -6,3 +6,5 @@ export * from './AppProfileCard/AppProfileCard';
 export * from './AppFormErrorMessage/AppFormErrorMessage';
 export * from './AppProfileExpanded/AppProfileExpanded';
 export * from './AppSideBarListItem/AppSideBarListItem';
+export * from './AppCard/AppCard';
+export * from './AppNews/AppNews';

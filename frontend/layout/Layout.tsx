@@ -2,11 +2,14 @@ import { LayoutProps } from './Layout.props';
 import { FunctionComponent, useState } from 'react';
 import { AppContextProvider } from '../context';
 import AppDrawer from './layout-components/AppDrawer/AppDrawer';
+import { Container } from '@mui/material';
 
 export const Layuot = ({ children, authorized }: LayoutProps): JSX.Element => {
   return (
     <>
-      <AppDrawer authorized={authorized}>{children}</AppDrawer>
+      <Container>
+        <AppDrawer authorized={authorized}>{children}</AppDrawer>
+      </Container>
     </>
   );
 };
@@ -16,10 +19,8 @@ export const withLayout = <T extends Record<string, unknown>>(
 ) => {
   return function withLayoutComponent(props: T): JSX.Element {
     const [authorized, setAuthorized] = useState<boolean>(
-      process.browser && (localStorage.getItem('user') ? true : false),
+      process.browser && !!localStorage.getItem('user'),
     );
-
-    console.log(authorized, 'authorized');
 
     return (
       <AppContextProvider auth={authorized} setAuth={setAuthorized}>

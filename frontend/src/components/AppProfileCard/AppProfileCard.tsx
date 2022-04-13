@@ -1,13 +1,14 @@
 import { AppProfileCardProps } from './AppProfileCard.props';
 import {
+  Avatar,
   Button,
   CardActions,
   CardContent,
   CardHeader,
-  Menu,
-  MenuItem,
+  Divider,
+  TextField,
+  Typography,
 } from '@mui/material';
-import MoreIcon from '@mui/icons-material/MoreVert';
 import { AppModal } from '../AppModal/AppModal';
 import * as React from 'react';
 import { useContext, useState } from 'react';
@@ -15,13 +16,14 @@ import MembersService from '../../../service/members/members.service';
 import { AppContext } from '../../../context';
 import { useRouter } from 'next/router';
 import { FieldValues, UnpackNestedValue, useForm } from 'react-hook-form';
-import { AppMembersAvatar } from '../AppMembersAvatar/AppMembersAvatar';
 import { AppMemberInfoField } from '../AppMemberInfoField/AppMemberInfoField';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { styled } from '@mui/material/styles';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { AppProfileExpanded } from '../AppProfileExpanded/AppProfileExpanded';
 import { AppCard } from '../AppCard/AppCard';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import EditOffIcon from '@mui/icons-material/EditOff';
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -52,7 +54,6 @@ export const AppProfileCard = ({
   const membersService = new MembersService();
   const slug = router.query.slug?.toString();
   const { register, handleSubmit } = useForm();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -68,14 +69,6 @@ export const AppProfileCard = ({
       .catch((e) => setErrors([...errors, e])),
   );
 
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   const deleteMember = () => {
     const slug = member.slug;
     membersService
@@ -90,100 +83,69 @@ export const AppProfileCard = ({
       <CardHeader
         avatar={
           member.avatar !== '' ? (
-            <AppMembersAvatar
-              editing={editing}
-              url={member.avatar}
-              register={() => register('avatar')}
-              registerTitle={'avatar'}
+            <Avatar
+              sx={{ width: '80px', height: '80px' }}
+              alt="avatar"
+              src={member.avatar}
             />
           ) : (
-            <AppMembersAvatar
-              editing={editing}
-              url={member.avatar}
-              register={() => register('avatar')}
-              registerTitle={'avatar'}
+            <Avatar
+              sx={{ width: '80px', height: '80px' }}
+              alt="avatar"
+              src={member.avatar}
             />
-          )
-        }
-        action={
-          auth && (
-            <div>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <MoreIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={() => setEditing(!editing)}>
-                  {editing ? 'Отм. режим редактирования' : 'Изменить'}
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  <AppModal
-                    handle={() => deleteMember()}
-                    withButton={true}
-                    btnText={'Удалить'}
-                    title={'Вы действительно хотите удалить сотрудника'}
-                    subtitle={
-                      'после подтверждения, это действие не возможно отменить'
-                    }
-                  />
-                </MenuItem>
-              </Menu>
-            </div>
           )
         }
         title={
-          member.fullName &&
-          (editing ? (
-            <label>
-              Полное имя
-              <input
-                defaultValue={member.fullName}
-                type="text"
-                {...register('fullName')}
-              />
-            </label>
-          ) : (
-            member.fullName
-          ))
+          member.fullName && (
+            <Typography variant="h6">{member.fullName}</Typography>
+          )
         }
         subheader={
-          member.fullName &&
-          (editing ? (
-            <label>
-              Должность
-              <input
+          member.post && (
+            <Typography variant="overline">{member.post}</Typography>
+          )
+        }
+      />
+
+      <Divider variant="fullWidth" />
+
+      <CardContent sx={{ padding: '1em 0' }}>
+        <form onSubmit={onSubmit}>
+          {editing && (
+            <>
+              <TextField
+                margin="dense"
+                fullWidth
+                id="fullName"
+                label="Ф.И.О."
+                variant="outlined"
+                defaultValue={member.fullName}
+                {...register('fullName')}
+              />
+              <TextField
+                margin="dense"
+                fullWidth
+                id="fullName"
+                label="Должность"
+                variant="outlined"
                 defaultValue={member.post}
                 type="text"
                 {...register('post')}
               />
-            </label>
-          ) : (
-            member.post
-          ))
-        }
-      />
-      <CardContent>
-        <form onSubmit={onSubmit}>
+              <TextField
+                margin="dense"
+                fullWidth
+                id="avatar"
+                label="Аватар"
+                variant="outlined"
+                defaultValue={member.avatar}
+                type="text"
+                {...register('avatar')}
+              />
+            </>
+          )}
+
           <AppMemberInfoField
             data={member.disciplines}
             title={'Преподаваемые предметы'}
@@ -233,7 +195,26 @@ export const AppProfileCard = ({
           )}
         </form>
       </CardContent>
+
       <CardActions disableSpacing>
+        {auth && (
+          <>
+            <IconButton onClick={() => setEditing(!editing)}>
+              {editing ? <EditOffIcon /> : <ModeEditIcon />}
+            </IconButton>
+            <AppModal
+              handle={() => deleteMember()}
+              withButton
+              btnText={'Удалить'}
+              title={'Вы действительно хотите удалить сотрудника'}
+              subtitle={
+                'после подтверждения, это действие не возможно отменить'
+              }
+              icon
+            />
+          </>
+        )}
+
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
@@ -243,6 +224,7 @@ export const AppProfileCard = ({
           <ExpandMoreIcon />
         </ExpandMore>
       </CardActions>
+
       <AppProfileExpanded
         expanded={expanded}
         errors={errors}

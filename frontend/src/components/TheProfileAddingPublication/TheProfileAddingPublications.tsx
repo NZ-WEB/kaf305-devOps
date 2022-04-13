@@ -3,12 +3,18 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import * as React from 'react';
-import { Card, CardActions, CardContent, Grid, Input } from '@mui/material';
+import {
+  Card,
+  CardActions,
+  CardContent,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { AppFormErrorMessage } from '../AppFormErrorMessage/AppFormErrorMessage';
 import Button from '@mui/material/Button';
 import PublicationsService from '../../../service/publications/publications.service';
-import { useRouter } from 'next/router';
+import { PublicationInterface } from '../../../interfaces/publication.interface';
 
 export const TheProfileAddingPublications = ({
   auth,
@@ -17,21 +23,20 @@ export const TheProfileAddingPublications = ({
   errors,
   setErrors,
   member,
+  setPublications,
   ...props
 }: TheProfileAddingPublicationsProps): JSX.Element => {
   const publicationsService = new PublicationsService();
-  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors: formErrors },
   } = useForm();
 
-  const onSubmit = handleSubmit((data) =>
+  const onSubmit = handleSubmit((data: PublicationInterface) =>
     publicationsService
       .create(data, member.id)
-      .then((publication) => console.log(publication, 'created'))
-      .then(() => router.push(`/`))
+      .then(() => setPublications(data))
       .catch((e) => setErrors([...errors, e])),
   );
 
@@ -42,45 +47,49 @@ export const TheProfileAddingPublications = ({
           <IconButton onClick={() => setAdding(!adding)}>
             {adding ? <CloseIcon /> : <AddIcon />}
           </IconButton>
+          <Typography variant="subtitle1">Добавить публикацию</Typography>
         </CardActions>
         {adding && (
           <CardContent>
             <form onSubmit={onSubmit}>
-              <Grid gap={2} container justifyContent="flex-start">
-                <Grid item>
-                  <Input
-                    placeholder="Название"
-                    {...register('title', { required: true })}
-                  />
-                  {formErrors.title && (
-                    <AppFormErrorMessage text="Это поле обязательно к заполнению" />
-                  )}
-                </Grid>
-                <Grid item>
-                  <Input
-                    placeholder="Где опубликовано"
-                    {...register('published', { required: true })}
-                  />
-                  {formErrors.published && (
-                    <AppFormErrorMessage text="Это поле обязательно к заполнению" />
-                  )}
-                </Grid>
+              <TextField
+                margin="dense"
+                fullWidth
+                placeholder="Название"
+                {...register('title', { required: true })}
+              />
+              {formErrors.title && (
+                <AppFormErrorMessage text="Это поле обязательно к заполнению" />
+              )}
+              <TextField
+                margin="dense"
+                fullWidth
+                placeholder="Где опубликовано"
+                {...register('published', { required: true })}
+              />
+              {formErrors.published && (
+                <AppFormErrorMessage text="Это поле обязательно к заполнению" />
+              )}
 
-                <Grid item>
-                  <Input
-                    placeholder="Авторы"
-                    {...register('body', { required: true })}
-                  />
-                  {formErrors.body && (
-                    <AppFormErrorMessage text="Это поле обязательно к заполнению" />
-                  )}
-                </Grid>
-                <Grid item>
-                  <Button variant={'outlined'} type="submit">
-                    Добавить публикацию
-                  </Button>
-                </Grid>
-              </Grid>
+              <TextField
+                multiline
+                rows={4}
+                margin="dense"
+                fullWidth
+                placeholder="Авторы"
+                {...register('body', { required: true })}
+              />
+              {formErrors.body && (
+                <AppFormErrorMessage text="Это поле обязательно к заполнению" />
+              )}
+              <Button
+                sx={{ marginTop: '0.5em' }}
+                fullWidth
+                variant="contained"
+                type="submit"
+              >
+                Добавить публикацию
+              </Button>
             </form>
           </CardContent>
         )}

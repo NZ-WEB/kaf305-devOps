@@ -1,22 +1,22 @@
+import { SERVER_BASE_URL } from '../../utils/constants';
 import axios from 'axios';
-import { SERVER_BASE_URL } from '../../../utils/constants';
-import { HomePageNewsInterface } from '../../../interfaces/HomePageNews.interface';
+import { NewsInterface } from '../../interfaces/News.interface';
 
-export default class HomePageNewsService {
+export default class NewsService {
   async getAll() {
     try {
-      const response = await axios.get(`${SERVER_BASE_URL}/home-page/news/`, {
+      const response = await axios.get(`${SERVER_BASE_URL}/allNews/news`, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      return response.data.allTopNews;
+      return response.data.allNews;
     } catch (error: any) {
       throw error.response.data.message;
     }
   }
 
-  async create(data: HomePageNewsInterface) {
+  async create(data: NewsInterface) {
     try {
       const token = JSON.parse(localStorage.getItem('user')).token;
 
@@ -25,7 +25,7 @@ export default class HomePageNewsService {
       });
 
       const response = await axios.post(
-        `${SERVER_BASE_URL}/home-page/news/`,
+        `${SERVER_BASE_URL}/allNews/news`,
         body,
         {
           headers: {
@@ -34,7 +34,7 @@ export default class HomePageNewsService {
           },
         },
       );
-      return response.data.topNews;
+      return response.data.news;
     } catch (error: any) {
       throw error.response.data.message;
     }
@@ -45,7 +45,7 @@ export default class HomePageNewsService {
       const token = JSON.parse(localStorage.getItem('user')).token;
 
       const response = await axios.delete(
-        `${SERVER_BASE_URL}/home-page/news/${id}`,
+        `${SERVER_BASE_URL}/allNews/news/${id}`,
         {
           headers: {
             'Content-Type': 'application/json',

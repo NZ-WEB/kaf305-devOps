@@ -117,15 +117,40 @@ export default function AppDrawer({ children }: AppDrawerProps) {
               component="nav"
               aria-labelledby="nested-list-subheader"
             >
-              <AppSideBarListItem title="Сотрудники" expanding={true}>
+              <AppSideBarListItem
+                sx={{ borderRadius: '1em' }}
+                title="Новости"
+                expanding={true}
+              >
                 <AppSideBarListItem
+                  sx={{ borderRadius: '1em' }}
+                  title="Добавить новость"
+                  route="/news/create"
+                />
+              </AppSideBarListItem>
+              <AppSideBarListItem
+                sx={{ borderRadius: '1em' }}
+                title="Сотрудники"
+                expanding={true}
+              >
+                <AppSideBarListItem
+                  sx={{ borderRadius: '1em' }}
                   title="Добавить сотрудника"
                   route="/member/create"
                 />
               </AppSideBarListItem>
-              <AppSideBarListItem title="Домашняя страница" expanding={true}>
-                <AppSideBarListItem title="Новости" expanding={true}>
+              <AppSideBarListItem
+                sx={{ borderRadius: '1em' }}
+                title="Домашняя страница"
+                expanding={true}
+              >
+                <AppSideBarListItem
+                  sx={{ borderRadius: '1em' }}
+                  title="Новости"
+                  expanding={true}
+                >
                   <AppSideBarListItem
+                    sx={{ borderRadius: '1em' }}
                     title="Добавить новость"
                     route="/home-page/news/create"
                   />
@@ -135,7 +160,7 @@ export default function AppDrawer({ children }: AppDrawerProps) {
           )}
         </List>
       </Drawer>
-      <Main open={open}>
+      <Main sx={{ padding: '0' }} open={open}>
         <DrawerHeader />
 
         {children}

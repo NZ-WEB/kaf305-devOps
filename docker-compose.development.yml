@@ -9,7 +9,7 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - ./frontend/src:/usr/src/app/src
+      - ./frontend:/usr/src/app
 
   api:
     build: 
@@ -20,6 +20,6 @@ services:
       - ./api/src:/usr/src/app/src
 
 
-#  nginx:
-#    volumes:
-#      - ./nginx/nginx.conf.dev:/etc/nginx/conf.d/nginx.conf
+  nginx:
+    volumes:
+      - ./nginx/nginx.conf.dev:/etc/nginx/conf.d/nginx.conf

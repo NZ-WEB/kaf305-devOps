@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+import { Grid, TextField } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { AppMemberInfoFieldProps } from './AppMemberInfoField.props';
@@ -16,20 +18,42 @@ export const AppMemberInfoField = ({
   registerField,
 }: AppMemberInfoFieldProps): JSX.Element => {
   return (
-    <Typography variant="subtitle1" color="text.secondary">
-      {data && `${title}:`}{' '}
-      {editing ? (
-        <span>
-          {!data && `${title}:`}
-          <input
-            {...register(registerField.toString())}
-            type="text"
-            defaultValue={data}
-          />
-        </span>
-      ) : (
-        data && data
+    <>
+      {data && !editing && (
+        <>
+          <Grid
+            marginY={1}
+            container
+            gap={3}
+            alignItems="flex-start"
+            justifyContent="space-between"
+          >
+            <Grid padding={0} item xs={4}>
+              <Typography variant="subtitle1">
+                {title}:
+              </Typography>
+            </Grid>
+            <Grid padding={0} item xs={7}>
+              <Typography variant="body1">
+                {data}
+              </Typography>
+            </Grid>
+          </Grid>
+        </>
       )}
-    </Typography>
+
+      {editing && (
+        <TextField
+          margin="dense"
+          fullWidth
+          id={title}
+          label={title}
+          variant="outlined"
+          defaultValue={data}
+          type="text"
+          {...register(registerField.toString())}
+        />
+      )}
+    </>
   );
 };
